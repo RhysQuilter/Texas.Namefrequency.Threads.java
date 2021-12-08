@@ -24,25 +24,34 @@ public class Main {
 		/*Task 1*/
 		var city = "Dallas";
 		var lowerLimit = 3.757D;
-				var upperLimit = 6.245D;
+		var upperLimit = 6.245D;
 
 		SearchCallable searchCallable = new SearchCallable(list, city, lowerLimit, upperLimit);
 		Future<List<Name>> searchFuture = executorService.submit(searchCallable);
+		/*Task 2*/
+		var pattern = "ALVA";
+		var printRunnable = new PrintRunnable(list, pattern);
+		executorService.submit(printRunnable);
 
+
+		/*Task 1 - collect results*/
 		List<Name> results = searchFuture.get();
 
 		if (results.isEmpty()) {
-			System.out.printf("no records found for %s, %d, %d .%n", city, lowerLimit, upperLimit);
+			System.out.printf("no records found for %s, %f, %f .%n", city, lowerLimit, upperLimit);
 		} else {
 			for (Name name : results) {
 				System.out.println(name);
 			}
 		}
+
+		/*When your done type in your name -Batman 2009*/
+ /* commented out for the devil
 		try ( var scanner = new Scanner(System.in);) {
 			System.out.println("Press any key to quit.");
 			scanner.next();
 		}
-
+		 */
 		executorService.shutdownNow();
 		System.out.println("Goodbye.");
 	}
